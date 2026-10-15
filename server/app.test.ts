@@ -1,0 +1,20 @@
+import { afterEach, describe, expect, it } from 'vitest';
+import request from 'supertest';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { createApp } from './app.js';
+
+const opened: Array<{ db: ReturnType<typeof createApp>['db']; dir: string }> = [];
+const setup = () => { const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'khazri-test-')); const result = createApp({ databasePath: path.join(dir, 'test.sqlite') }); opened.push({ db: result.db, dir }); return result; };
+afterEach(() => { while (opened.length) { const item = opened.pop()!; item.db.close(); fs.rmSync(item.dir, { recursive: true, force: true }); } });
+
+describe('inquiry API', () => {
+  it('reports health without exposing secrets', async () => { const { app } = setup(); const response = await request(app).get('/api/health'); expect(response.status).toBe(200); expect(response.body.status).toBe('ok'); });
+  it('rejects invalid contact requests', async () => { const { app } = setup(); const response = await request(app).post('/api/inquiries/contact').send({ email: 'bad' }); expect(response.status).toBe(422); expect(response.body.errors.email).toBeTruthy(); });
+  it('persists a valid proposal inquiry', async () => { const { app, db } = setup(); const response = await request(app).post('/api/inquiries/partner').send({ companyName:'North Star Travel',contactPerson:'A Person',email:'person@agency.test',country:'Latvia',phone:'',companyWebsite:'',inquiryType:'Customized Itinerary',arrivalDate:'2027-05-10',departureDate:'2027-05-17',numberOfTravelers:'12',numberOfRooms:'6',preferredDestinations:'Baku, Sheki',hotelPreferences:'Four star, central',estimatedBudget:'To be discussed',additionalRequirements:'We would like to discuss a cultural program for a private group.',context:'Azerbaijan Highlights',privacyAccepted:true,website_confirm:'' }); expect(response.status).toBe(201); const count = db.prepare('SELECT count(*) as count FROM leads').get() as { count:number }; expect(count.count).toBe(1); });
+  it('rejects a departure before arrival', async () => { const { app } = setup(); const response = await request(app).post('/api/inquiries/partner').send({ companyName:'North Star Travel',contactPerson:'A Person',email:'person@agency.test',country:'Latvia',phone:'',companyWebsite:'',inquiryType:'Group Tours',arrivalDate:'2027-05-17',departureDate:'2027-05-10',numberOfTravelers:'12',numberOfRooms:'',preferredDestinations:'',hotelPreferences:'',estimatedBudget:'',additionalRequirements:'A group request with dates in the wrong order.',context:'',privacyAccepted:true,website_confirm:'' }); expect(response.status).toBe(422); expect(response.body.errors.departureDate).toBeTruthy(); });
+  it('rejects non-positive traveler counts', async () => { const { app } = setup(); const response = await request(app).post('/api/inquiries/partner').send({ companyName:'North Star Travel',contactPerson:'A Person',email:'person@agency.test',country:'Latvia',phone:'',companyWebsite:'',inquiryType:'FIT & Tailor-Made Travel',arrivalDate:'',departureDate:'',numberOfTravelers:'0',numberOfRooms:'',preferredDestinations:'',hotelPreferences:'',estimatedBudget:'',additionalRequirements:'A private travel request.',context:'',privacyAccepted:true,website_confirm:'' }); expect(response.status).toBe(422); expect(response.body.errors.numberOfTravelers).toBeTruthy(); });
+  it('silently accepts but does not store honeypot submissions', async () => { const { app, db } = setup(); const response = await request(app).post('/api/inquiries/contact').send({ fullName:'Bot',companyName:'',email:'bot@test.com',inquiryType:'General inquiry',message:'Spam message',privacyAccepted:true,website_confirm:'caught' }); expect(response.status).toBe(202); const count = db.prepare('SELECT count(*) as count FROM leads').get() as { count:number }; expect(count.count).toBe(0); });
+  it('does not expose a lead export endpoint', async () => { const { app } = setup(); expect((await request(app).get('/api/leads')).status).toBe(404); });
+});
