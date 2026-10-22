@@ -13,7 +13,7 @@ export function Logo({ light = false }: { light?: boolean }) {
 
 export function HeroArtwork() {
   return <div className="collage" aria-hidden="true">
-    <figure className="photo-sticker photo-sticker--panorama"><img src="/images/hero/baku-waterfront.jpg" alt="" width="1920" height="1280" fetchPriority="high"/><figcaption>BAKU · CASPIAN COAST</figcaption></figure>
+    <figure className="photo-sticker photo-sticker--panorama"><img src="/images/updatedD/baku.jpg" alt="" width="720" height="1280" fetchPriority="high"/><figcaption>BAKU · CASPIAN COAST</figcaption></figure>
     <figure className="photo-sticker photo-sticker--maiden"><img src="/images/hero/maiden-tower.jpg" alt="" width="1280" height="1920" fetchPriority="high"/><figcaption>MAIDEN TOWER</figcaption></figure>
     <figure className="photo-sticker photo-sticker--center"><img src="/images/hero/heydar-aliyev-center.jpg" alt="" width="1280" height="720" fetchPriority="high"/><figcaption>HEYDAR ALIYEV CENTER</figcaption></figure>
     <div className="sticker sticker--sun"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="43"/><path d="M60 4v18M60 98v18M4 60h18M98 60h18M20 20l13 13M87 87l13 13M100 20 87 33M33 87l-13 13"/></svg></div>

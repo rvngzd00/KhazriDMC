@@ -17,15 +17,15 @@ export const services = [
 ] as const;
 
 export const destinations = [
-  { name:'Baku', image:'/images/hero/baku-waterfront.jpg', alt:'Baku Caspian waterfront with the Flame Towers illuminated', text:'The capital’s blend of contemporary architecture, the Caspian waterfront, historic streets, local cuisine, and vibrant city life.' },
-  { name:'Gobustan', image:'/images/destinations/gobustan.jpg', alt:'Ancient rock carvings at Gobustan in Azerbaijan', text:'A compelling excursion for travelers interested in ancient rock art, archaeology, and Azerbaijan’s natural heritage.' },
-  { name:'Gabala', image:'/images/destinations/gabala.jpg', alt:'Mountain scenery in Gabala, Azerbaijan', text:'A getaway known for mountain scenery, nature, and outdoor experiences.' },
-  { name:'Sheki', image:'/images/destinations/sheki.jpg', alt:'Historic Sheki Khan’s Palace in Azerbaijan', text:'A historic destination offering traditional architecture, local culture, and a distinctive atmosphere.' },
-  { name:'Guba & Khinalug', image:'/images/destinations/khinalug.jpg', alt:'Khinalug mountain village in the Greater Caucasus', text:'Mountain landscapes, cultural heritage, and opportunities to explore Azerbaijan beyond its main city.' },
+  { name:'Baku', image:'/images/updatedD/baku.jpg', alt:'Baku city and the Flame Towers at sunset', text:'The capital’s blend of contemporary architecture, the Caspian waterfront, historic streets, local cuisine, and vibrant city life.' },
+  { name:'Gobustan', image:'/images/updatedD/gobustan.jpg', alt:'Rock formations and the Gobustan visitor landmark in Azerbaijan', text:'A compelling excursion for travelers interested in ancient rock art, archaeology, and Azerbaijan’s natural heritage.' },
+  { name:'Gabala', image:'/images/updatedD/gabala.jpg', alt:'Snow-covered mountain resort in Gabala, Azerbaijan', text:'A getaway known for mountain scenery, nature, and outdoor experiences.' },
+  { name:'Sheki', image:'/images/updatedD/sheki.jpg', alt:'Historic stone tower among the greenery and mountains of the Sheki region', text:'A historic destination offering traditional architecture, local culture, and a distinctive atmosphere.' },
+  { name:'Guba & Khinalug', image:'/images/updatedD/quba.jpg', alt:'Mountain resort and Caucasus scenery in the Guba region', text:'Mountain landscapes, cultural heritage, and opportunities to explore Azerbaijan beyond its main city.' },
   { name:'Ganja', image:'/images/destinations/ganja.jpg', alt:'Imamzadeh religious complex in Ganja, Azerbaijan', text:'A city with a rich history, cultural attractions, and access to nearby regional experiences.' },
-  { name:'Lankaran', image:'/images/destinations/lankaran.jpg', alt:'Green Talysh Hills near Lankaran, Azerbaijan', text:'Southern landscapes, nature, and local cultural experiences offer a different perspective on Azerbaijan.' },
+  { name:'Lankaran', image:'/images/updatedD/lankaran.jpg', alt:'Wooded lake and mountain landscape in southern Azerbaijan', text:'Southern landscapes, nature, and local cultural experiences offer a different perspective on Azerbaijan.' },
   { name:'Nakhchivan', image:'/images/destinations/nakhchivan.jpg', alt:'Momine Khatun Mausoleum in Nakhchivan, Azerbaijan', text:'A distinct region of heritage, architecture, and dramatic landscapes, with programs dependent on current transport and operational availability.' },
-  { name:'Karabakh', image:'/images/destinations/karabakh.jpg', alt:'Historic Shusha fortress in Karabakh, Azerbaijan', text:'A region of significant cultural and natural interest. Any program is considered subject to current accessibility, permits, route restrictions, and operational availability.' },
+  { name:'Karabakh', image:'/images/updatedD/karabak.jpg', alt:'Historic church in Shusha surrounded by the Karabakh mountains', text:'A region of significant cultural and natural interest. Any program is considered subject to current accessibility, permits, route restrictions, and operational availability.' },
 ] as const;
 
 export const partnerTypes = [
