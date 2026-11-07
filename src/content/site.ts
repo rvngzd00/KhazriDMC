@@ -17,15 +17,15 @@ export const services = [
 ] as const;
 
 export const destinations = [
-  { name:'Baku', image:'/images/updatedD/baku.jpg', alt:'Baku city and the Flame Towers at sunset', text:'The capital’s blend of contemporary architecture, the Caspian waterfront, historic streets, local cuisine, and vibrant city life.' },
-  { name:'Gobustan', image:'/images/updatedD/gobustan.jpg', alt:'Rock formations and the Gobustan visitor landmark in Azerbaijan', text:'A compelling excursion for travelers interested in ancient rock art, archaeology, and Azerbaijan’s natural heritage.' },
-  { name:'Gabala', image:'/images/updatedD/gabala.jpg', alt:'Snow-covered mountain resort in Gabala, Azerbaijan', text:'A getaway known for mountain scenery, nature, and outdoor experiences.' },
-  { name:'Sheki', image:'/images/updatedD/sheki.jpg', alt:'Historic stone tower among the greenery and mountains of the Sheki region', text:'A historic destination offering traditional architecture, local culture, and a distinctive atmosphere.' },
-  { name:'Guba & Khinalug', image:'/images/updatedD/quba.jpg', alt:'Mountain resort and Caucasus scenery in the Guba region', text:'Mountain landscapes, cultural heritage, and opportunities to explore Azerbaijan beyond its main city.' },
-  { name:'Ganja', image:'/images/destinations/ganja.jpg', alt:'Imamzadeh religious complex in Ganja, Azerbaijan', text:'A city with a rich history, cultural attractions, and access to nearby regional experiences.' },
-  { name:'Lankaran', image:'/images/updatedD/lankaran.jpg', alt:'Wooded lake and mountain landscape in southern Azerbaijan', text:'Southern landscapes, nature, and local cultural experiences offer a different perspective on Azerbaijan.' },
+  { name:'Baku', image:'/images/hero/baku-waterfront.jpg', alt:'Baku Caspian waterfront with the Flame Towers illuminated at twilight', text:'The capital’s blend of contemporary architecture, the Caspian waterfront, historic streets, local cuisine, and vibrant city life.' },
+  { name:'Gobustan', image:'/images/destinations/gobustan.jpg', alt:'Ancient prehistoric rock art and petroglyphs at Gobustan in Azerbaijan', text:'A compelling excursion for travelers interested in ancient rock art, archaeology, and Azerbaijan’s natural heritage.' },
+  { name:'Gabala', image:'/images/updatedD/gabala.jpg', alt:'Snow-covered Caucasus mountain resort in Gabala, Azerbaijan', text:'A getaway known for mountain scenery, nature, and outdoor experiences.' },
+  { name:'Sheki', image:'/images/destinations/sheki.jpg', alt:'The historic UNESCO World Heritage Sheki Khan’s Palace in Azerbaijan', text:'A historic destination offering traditional architecture, local culture, and a distinctive atmosphere.' },
+  { name:'Guba & Khinalug', image:'/images/destinations/khinalug.jpg', alt:'The ancient mountain village of Khinalug in the Greater Caucasus', text:'Mountain landscapes, cultural heritage, and opportunities to explore Azerbaijan beyond its main city.' },
+  { name:'Ganja', image:'/images/destinations/ganja.jpg', alt:'The historic Imamzadeh Complex in Ganja, Azerbaijan', text:'A city with a rich history, cultural attractions, and access to nearby regional experiences.' },
+  { name:'Lankaran', image:'/images/destinations/lankaran.jpg', alt:'Green Talysh Hills and subtropical landscapes near Lankaran, Azerbaijan', text:'Southern landscapes, nature, and local cultural experiences offer a different perspective on Azerbaijan.' },
   { name:'Nakhchivan', image:'/images/destinations/nakhchivan.jpg', alt:'Momine Khatun Mausoleum in Nakhchivan, Azerbaijan', text:'A distinct region of heritage, architecture, and dramatic landscapes, with programs dependent on current transport and operational availability.' },
-  { name:'Karabakh', image:'/images/updatedD/karabak.jpg', alt:'Historic church in Shusha surrounded by the Karabakh mountains', text:'A region of significant cultural and natural interest. Any program is considered subject to current accessibility, permits, route restrictions, and operational availability.' },
+  { name:'Karabakh', image:'/images/destinations/karabakh.jpg', alt:'The historic Shusha fortress in Karabakh, Azerbaijan', text:'A region of significant cultural and natural interest. Any program is considered subject to current accessibility, permits, route restrictions, and operational availability.' },
 ] as const;
 
 export const partnerTypes = [
@@ -52,4 +52,11 @@ export const faqs = [
   ['Do you work with international travel agencies and tour operators?','Yes. KHAZRI DMC is positioned primarily for B2B collaboration with international travel agencies, tour operators, DMCs, and corporate travel planners interested in Azerbaijan.'], ['Can you create a customized Azerbaijan itinerary?','Yes. Itinerary concepts can be developed around your clients’ interests, travel dates, group size, preferred accommodation level, and budget.'], ['Can you arrange accommodation and transportation?','We can include hotel and transportation arrangements in a proposal, subject to supplier availability, confirmation, and the agreed service scope.'], ['Do you work with both FIT and group travel?','We can review requests for individual travel arrangements and group programs and propose suitable options based on the requirements.'], ['Can you support MICE and corporate programs?','Corporate and MICE inquiries can be assessed according to the event objectives, dates, group size, requested services, and operational requirements.'], ['How can I request a proposal?','Complete the inquiry form with your contact details, travel dates, group size, preferred destinations, and service requirements. You can also contact our team directly using the contact details on this page.'], ['Are your itineraries and prices fixed?','The sample travel concepts shown on the website are illustrative. The final itinerary, inclusions, availability, and pricing are confirmed individually for each inquiry.'], ['Do you operate outside Azerbaijan?','Our website focuses on inbound destination services in Azerbaijan. Requests involving other countries can be discussed separately, but availability should not be assumed.'],
 ] as const;
 
-export const contactConfig = { email:'', phone:'', website:'', location:'Baku, Azerbaijan' };
+export const contactConfig = {
+  email: 'info@khazridmc.com',
+  phones: [
+    { label: 'Azerbaijan', display: '+994 50 345 28 29', href: '+994503452829' },
+    { label: 'Poland', display: '+48 503 518 679', href: '+48503518679' },
+  ],
+  location: 'Baku, Azerbaijan',
+};
