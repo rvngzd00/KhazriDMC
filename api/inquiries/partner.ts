@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { emailConfigured, sendInquiryEmail } from '../_email.js';
+import { emailConfigured, emailDiagnostics, sendInquiryEmail } from '../_email.js';
 import { issueMap, partnerSchema } from '../_validation.js';
 
 type VercelRequest = IncomingMessage & { body?: unknown };
@@ -23,15 +23,30 @@ export default async function handler(request: VercelRequest, response: VercelRe
   const result = partnerSchema.safeParse(requestBody(request));
   if (!result.success) return response.status(422).json({ message: 'Please check the highlighted fields.', errors: issueMap(result.error) });
   if (result.data.website_confirm) return response.status(202).json({ message: 'Thank you. Your inquiry has been received.' });
-  if (!emailConfigured()) return response.status(503).json({ message: 'The inquiry email service is not configured. Please contact us directly.' });
+  if (!emailConfigured()) {
+    console.error(JSON.stringify({ level: 'error', event: 'inquiry_email_not_configured', smtp: emailDiagnostics() }));
+    return response.status(503).json({ message: 'The inquiry email service is not configured. Please contact us directly.' });
+  }
 
   const { website_confirm: _discard, ...inquiry } = result.data;
   try {
+    console.info(JSON.stringify({ level: 'info', event: 'inquiry_email_attempt', type: 'partner', smtp: emailDiagnostics() }));
     await sendInquiryEmail(inquiry);
     console.log(JSON.stringify({ level: 'info', event: 'inquiry_email_sent', type: 'partner' }));
     return response.status(201).json({ message: 'Thank you. Your inquiry has been sent successfully.' });
-  } catch {
-    console.error(JSON.stringify({ level: 'error', event: 'inquiry_email_failed', type: 'partner' }));
+  } catch (error) {
+    const smtpError = error as { code?: string; command?: string; responseCode?: number; message?: string };
+    console.error(JSON.stringify({
+      level: 'error',
+      event: 'inquiry_email_failed',
+      type: 'partner',
+      error: {
+        code: smtpError.code || 'unknown',
+        command: smtpError.command || 'unknown',
+        responseCode: smtpError.responseCode || null,
+        message: smtpError.message || 'Unknown SMTP error',
+      },
+    }));
     return response.status(502).json({ message: 'We could not send your inquiry. Please try again or contact us directly.' });
   }
 }

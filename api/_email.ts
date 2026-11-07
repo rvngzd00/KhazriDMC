@@ -17,6 +17,19 @@ export const emailConfigured = () => {
   return Boolean(smtp.host && smtp.from && smtp.to);
 };
 
+export function emailDiagnostics() {
+  const smtp = config();
+  return {
+    host: smtp.host || '[missing]',
+    port: smtp.port,
+    secure: smtp.secure,
+    from: smtp.from || '[missing]',
+    to: smtp.to || '[missing]',
+    usernameConfigured: Boolean(smtp.user),
+    passwordConfigured: Boolean(smtp.pass),
+  };
+}
+
 export async function sendInquiryEmail(data: Record<string, unknown>) {
   const smtp = config();
   if (!emailConfigured()) throw new Error('SMTP is not configured');
