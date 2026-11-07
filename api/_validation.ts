@@ -5,7 +5,6 @@ const optional = (max: number) => z.string().trim().max(max).optional().default(
 const email = z.string().trim().email('Enter a valid email address.').max(254);
 const privacy = z.union([z.literal(true), z.literal('true')], { error: 'Please acknowledge the privacy notice.' }).transform(() => true);
 const honeypot = z.string().max(200).optional().default('');
-
 const optionalDate = z.union([z.literal(''), z.string().date('Enter a valid date.')]).optional().default('');
 const optionalPositiveInteger = z.union([
   z.literal(''),
@@ -37,16 +36,6 @@ export const partnerSchema = z.object({
     ctx.addIssue({ code: 'custom', path: ['departureDate'], message: 'Departure date cannot be before arrival date.' });
   }
 });
-
-export const contactSchema = z.object({
-  fullName: clean(120),
-  companyName: optional(120),
-  email,
-  inquiryType: z.enum(['Destination services','Active travel request','MICE & corporate travel','Supplier collaboration','General inquiry'], { error: 'Select an inquiry type.' }),
-  message: clean(3000),
-  privacyAccepted: privacy,
-  website_confirm: honeypot,
-}).strict();
 
 export function issueMap(error: z.ZodError) {
   const errors: Record<string, string> = {};

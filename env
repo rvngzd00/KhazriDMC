@@ -1,0 +1,8 @@
+# Import these into Vercel → Project Settings → Environment Variables.
+SMTP_HOST=smtp.hostinger.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=info@khazridmc.com
+SMTP_PASS=Aysu000+
+SMTP_FROM=info@khazridmc.com
+LEADS_TO_EMAIL=info@khazridmc.com
