@@ -31,8 +31,8 @@ export default async function handler(request: VercelRequest, response: VercelRe
   const { website_confirm: _discard, ...inquiry } = result.data;
   try {
     console.info(JSON.stringify({ level: 'info', event: 'inquiry_email_attempt', type: 'partner', smtp: emailDiagnostics() }));
-    await sendInquiryEmail(inquiry);
-    console.log(JSON.stringify({ level: 'info', event: 'inquiry_email_sent', type: 'partner' }));
+    const delivery = await sendInquiryEmail(inquiry);
+    console.log(JSON.stringify({ level: 'info', event: 'inquiry_email_sent', type: 'partner', delivery }));
     return response.status(201).json({ message: 'Thank you. Your inquiry has been sent successfully.' });
   } catch (error) {
     const smtpError = error as { code?: string; command?: string; responseCode?: number; message?: string };

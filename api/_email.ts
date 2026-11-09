@@ -14,7 +14,7 @@ const config = () => ({
 
 export const emailConfigured = () => {
   const smtp = config();
-  return Boolean(smtp.host && smtp.from && smtp.to);
+  return Boolean(smtp.host && smtp.user && smtp.pass && smtp.from && smtp.to && Number.isInteger(smtp.port) && smtp.port > 0);
 };
 
 export function emailDiagnostics() {
@@ -33,22 +33,41 @@ export function emailDiagnostics() {
 export async function sendInquiryEmail(data: Record<string, unknown>) {
   const smtp = config();
   if (!emailConfigured()) throw new Error('SMTP is not configured');
-  const transport = nodemailer.createTransport({
-    host: smtp.host,
-    port: smtp.port,
-    secure: smtp.secure,
-    auth: smtp.user ? { user: smtp.user, pass: smtp.pass } : undefined,
-  });
   const text = Object.entries(data)
     .filter(([key]) => key !== 'website_confirm' && key !== 'privacyAccepted')
     .map(([key, value]) => `${safeLabel(key)}: ${Array.isArray(value) ? value.join(', ') : value}`)
     .join('\n');
 
-  await transport.sendMail({
-    from: smtp.from,
-    to: smtp.to,
-    replyTo: typeof data.email === 'string' ? data.email : undefined,
-    subject: '[KHAZRI DMC] New proposal inquiry',
-    text: `Received: ${new Date().toISOString()}\n\n${text}`,
-  });
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    const transport = nodemailer.createTransport({
+      host: smtp.host,
+      port: smtp.port,
+      secure: smtp.secure,
+      auth: { user: smtp.user, pass: smtp.pass },
+      connectionTimeout: 12_000,
+      greetingTimeout: 12_000,
+      socketTimeout: 20_000,
+      tls: { minVersion: 'TLSv1.2' },
+    });
+    try {
+      const result = await transport.sendMail({
+        from: smtp.from,
+        to: smtp.to,
+        replyTo: typeof data.email === 'string' ? data.email : undefined,
+        subject: '[KHAZRI DMC] New proposal inquiry',
+        text: `Received: ${new Date().toISOString()}\n\n${text}`,
+      });
+      return { messageId: result.messageId, accepted: result.accepted.length, rejected: result.rejected.length, attempt };
+    } catch (error) {
+      const code = (error as { code?: string; command?: string }).code;
+      const command = (error as { command?: string }).command;
+      const canRetry = attempt === 1 && ['ECONNECTION', 'ECONNRESET', 'EDNS', 'ESOCKET', 'ETIMEDOUT'].includes(code || '') && command === 'CONN';
+      if (!canRetry) throw error;
+      console.warn(JSON.stringify({ level: 'warn', event: 'inquiry_email_retry', attempt: attempt + 1, code }));
+      await new Promise(resolve => setTimeout(resolve, 500));
+    } finally {
+      transport.close();
+    }
+  }
+  throw new Error('SMTP delivery failed');
 }

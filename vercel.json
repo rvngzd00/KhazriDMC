@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/inquiries/partner.ts": {
+      "maxDuration": 15,
+      "regions": ["fra1"]
+    }
+  }
+}
